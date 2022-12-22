@@ -17,12 +17,27 @@ class smart_array
 protected:
 	int count = 0;
 	int size = 0;
-public:
 	int* arr;
+public:
+
 	smart_array(int size)
 	{
 		this->size = size;
-		arr = new int[size];
+		this->arr = new int[size]{};
+	}
+	smart_array(const smart_array& other)
+	{
+		this->size = other.size;
+		this->arr = new int[other.size] {};
+	}
+	smart_array &operator=(const smart_array &other)
+	{
+		if (this->arr == other.arr) throw DivisionByZeroException();
+		for (int a = 0; a < size; ++a)
+		{
+			this->arr[a] = other.arr[a];
+		}
+		return *this;
 	}
 	void add_element(int element)
 	{
@@ -32,7 +47,7 @@ public:
 	}
 	int get_element(int row)
 	{
-		if (row >= size) throw DivisionByZeroException();
+		if (row >= size || row < 0) throw DivisionByZeroException();
 		return arr[row];
 	}
 	int get_size()
@@ -44,6 +59,7 @@ public:
 		delete[] arr;
 	}
 };
+
 
 int main(int argc, char** argv)
 {
@@ -58,10 +74,7 @@ int main(int argc, char** argv)
 		new_array.add_element(44);
 		new_array.add_element(34);
 
-		for (int a = 0; a < new_array.get_size(); ++a)
-		{
-			arr.arr[a] = new_array.arr[a];
-		}
+		arr = new_array;
 	}
 	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;
