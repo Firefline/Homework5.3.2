@@ -29,15 +29,32 @@ public:
 	{
 		this->size = other.size;
 		this->arr = new int[other.size] {};
+		for (int a = 0; a < size; ++a)
+		{
+			other.arr[a] = this->arr[a];
+		}
 	}
 	smart_array &operator=(const smart_array &other)
 	{
-		if (this->arr == other.arr) throw DivisionByZeroException();
-		for (int a = 0; a < size; ++a)
+		if (this->arr == other.arr) {}
+		else
 		{
-			this->arr[a] = other.arr[a];
+			if (this->size < other.size)
+			{
+				int* temp_arr = new int[other.size];
+				for (int a = 0; a < this->size; ++a)
+				{
+					temp_arr[a] = this->arr[a];
+				}
+				this->arr = temp_arr;
+				delete[] temp_arr;
+			}
+			for (int a = 0; a < other.size; ++a)
+			{
+				this->arr[a] = other.arr[a];
+			}
+			return *this;
 		}
-		return *this;
 	}
 	void add_element(int element)
 	{
