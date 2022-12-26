@@ -36,7 +36,7 @@ public:
 	}
 	smart_array &operator=(const smart_array &other)
 	{
-		if (this->arr == other.arr) {}
+		if (this->arr == other.arr) { return *this; }
 		else
 		{
 			if (this->size < other.size)
@@ -46,12 +46,17 @@ public:
 				{
 					temp_arr[a] = this->arr[a];
 				}
+				delete[] arr;
+				int* arr = new int[this->size];
 				this->arr = temp_arr;
-				delete[] temp_arr;
+				this->size = other.size;
 			}
-			for (int a = 0; a < other.size; ++a)
+			else
 			{
-				this->arr[a] = other.arr[a];
+				for (int a = 0; a < other.size; ++a)
+				{
+					this->arr[a] = other.arr[a];
+				}
 			}
 			return *this;
 		}
@@ -87,7 +92,7 @@ int main(int argc, char** argv)
 		arr.add_element(4);
 		arr.add_element(155);
 
-		smart_array new_array(2);
+		smart_array new_array(7);
 		new_array.add_element(44);
 		new_array.add_element(34);
 
