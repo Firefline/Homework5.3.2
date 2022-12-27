@@ -28,6 +28,7 @@ public:
 	smart_array(const smart_array& other)
 	{
 		this->size = other.size;
+		this->count = other.count;
 		this->arr = new int[other.size] {};
 		for (int a = 0; a < size; ++a)
 		{
@@ -39,6 +40,7 @@ public:
 		if (this->arr == other.arr) { return *this; }
 		else
 		{
+			this->count = other.count;
 			if (this->size < other.size)
 			{
 				int* temp_arr = new int[other.size];
@@ -47,7 +49,7 @@ public:
 					temp_arr[a] = this->arr[a];
 				}
 				delete[] arr;
-				int* arr = new int[this->size];
+				//int* arr = new int[this->size];
 				this->arr = temp_arr;
 				this->size = other.size;
 			}
@@ -69,7 +71,7 @@ public:
 	}
 	int get_element(int row)
 	{
-		if (row >= size || row < 0) throw DivisionByZeroException();
+		if (row >= count || row < 0) throw DivisionByZeroException();
 		return arr[row];
 	}
 	int get_size()
@@ -92,7 +94,7 @@ int main(int argc, char** argv)
 		arr.add_element(4);
 		arr.add_element(155);
 
-		smart_array new_array(7);
+		smart_array new_array(2);
 		new_array.add_element(44);
 		new_array.add_element(34);
 
